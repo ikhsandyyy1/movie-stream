@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
 export async function toggleFavorite(formData: FormData) {
@@ -10,6 +11,12 @@ export async function toggleFavorite(formData: FormData) {
 
   if (!titleId || !slug) {
     redirect(`/watch/${slug}?error=ID judul tidak valid.`);
+  }
+
+  const titleIdParse = z.string().uuid().safeParse(titleId);
+  const slugParse = z.string().min(1).safeParse(slug);
+  if (!titleIdParse.success || !slugParse.success) {
+    redirect("/login?error=invalid-request");
   }
 
   const supabase = await createClient();
@@ -51,6 +58,12 @@ export async function removeFavorite(formData: FormData) {
 
   if (!titleId) {
     redirect("/profile/favorites");
+  }
+
+  const titleIdParse = z.string().uuid().safeParse(titleId);
+  const slugParse = z.string().min(1).safeParse(slug);
+  if (!titleIdParse.success || !slugParse.success) {
+    redirect("/login?error=invalid-request");
   }
 
   const supabase = await createClient();
