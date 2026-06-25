@@ -108,6 +108,26 @@ img {
   border: 0;
 }
 
+/* Micro-interactions: shared transitions for interactive elements */
+.button,
+.icon-button,
+.nav-link,
+.meta-pill,
+.season-tab,
+.bottom-nav a,
+.featured-dots button,
+.input,
+.select,
+.textarea,
+.poster,
+.episode-card {
+  transition: transform 180ms ease,
+              background 180ms ease,
+              color 180ms ease,
+              border-color 180ms ease,
+              box-shadow 180ms ease;
+}
+
 .app-shell {
   min-height: 100dvh;
   padding-bottom: 84px;
@@ -179,6 +199,11 @@ img {
 .nav-link:hover {
   color: var(--text);
   background: linear-gradient(135deg, rgba(229, 9, 20, 0.16), rgba(255, 138, 0, 0.09));
+  transform: translateY(-1px);
+}
+
+.nav-link:active {
+  transform: scale(0.97);
 }
 
 .nav-link.active {
@@ -205,7 +230,7 @@ img {
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease;
+  will-change: transform;
 }
 
 .icon-button {
@@ -237,6 +262,19 @@ img {
 .button:hover,
 .icon-button:hover {
   transform: translateY(-1px);
+}
+
+.button:active,
+.icon-button:active {
+  transform: scale(0.97) translateY(-1px);
+}
+
+.button.secondary:active {
+  transform: scale(0.97) translateY(-1px);
+}
+
+.button.ghost:active {
+  transform: scale(0.97) translateY(-1px);
 }
 
 .page {
@@ -448,6 +486,15 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.meta-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.25);
+}
+
+.meta-pill:active {
+  transform: scale(0.97) translateY(-1px);
+}
+
 .actions-row {
   display: flex;
   flex-wrap: wrap;
@@ -501,6 +548,12 @@ img {
   background: linear-gradient(145deg, #1c0d13, #070a10 58%, #172033);
   box-shadow: var(--shadow);
   border: 1px solid rgba(255, 61, 31, 0.12);
+}
+
+.poster:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(229, 9, 20, 0.22);
+  border-color: rgba(255, 61, 31, 0.42);
 }
 
 .poster-img {
@@ -591,6 +644,14 @@ img {
   min-height: 110px;
   padding-block: 12px;
   resize: vertical;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--primary-strong);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.15), 0 4px 16px rgba(229, 9, 20, 0.1);
+  outline: none;
 }
 
 .detail-layout {
@@ -709,6 +770,12 @@ img {
 .season-tab.active {
   border-color: rgba(255, 61, 31, 0.52);
   background: linear-gradient(135deg, rgba(229, 9, 20, 0.24), rgba(255, 138, 0, 0.12));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(229, 9, 20, 0.2);
+}
+
+.season-tab:active {
+  transform: scale(0.97) translateY(-1px);
 }
 
 .season-tab.active {
@@ -743,6 +810,12 @@ img {
 
 .episode-card:hover {
   border-color: rgba(255, 61, 31, 0.46);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(229, 9, 20, 0.2);
+}
+
+.episode-card:active {
+  transform: scale(0.98) translateY(-2px);
 }
 
 .episode-still {
@@ -841,6 +914,15 @@ img {
   font-size: 11px;
   font-weight: 700;
   border-radius: var(--radius);
+}
+
+.bottom-nav a:hover {
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.14), rgba(255, 138, 0, 0.08));
+}
+
+.bottom-nav a:active {
+  transform: scale(0.95);
 }
 
 .bottom-nav a.active {
