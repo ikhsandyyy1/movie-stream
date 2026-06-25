@@ -1,3 +1,6 @@
+// NOTE: In-memory rate limiter. On Vercel serverless, each invocation gets a
+// fresh runtime, so the rate limit resets on every cold start. For production
+// with multiple instances, replace with Vercel KV or a database-backed limiter.
 const rateMap = new Map<string, { count: number; resetAt: number }>();
 
 export function rateLimit(key: string, maxAttempts = 5, windowMs = 60000) {

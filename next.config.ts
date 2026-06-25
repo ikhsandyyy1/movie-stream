@@ -14,8 +14,9 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  // For Three.js (Ethereal component)
-  transpilePackages: ["three"],
+  // Note: 'unsafe-inline' is required for Next.js hydration scripts (nonce-based CSP
+  // would be preferred but adds complexity beyond MVP scope).
+  // For production hardening, migrate to nonce-based CSP.
   async headers() {
     return [
       {

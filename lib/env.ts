@@ -3,10 +3,6 @@ const requiredEnvVars = [
   "NEXT_PUBLIC_SUPABASE_ANON_KEY",
 ] as const;
 
-const optionalEnvVars = [
-  "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
-  "TMDB_ACCESS_TOKEN",
-] as const;
 
 export function validateEnv() {
   const missing: string[] = [];

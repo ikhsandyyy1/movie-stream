@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Info, Play } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useReducedMotion, motion, AnimatePresence } from "framer-motion";
 import type { Title } from "@/lib/data";
 import { LayerParallaxHero } from "@/components/ui/layer-parallax-hero";
 
@@ -100,44 +100,54 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
         ))}
       </div>
 
-      <div className="hero-content featured-copy" key={current.id} data-direction={direction}>
-        <div className="eyebrow">Featured hari ini</div>
-        <h1>{current.title}</h1>
-        <p>{current.synopsis}</p>
-        <div className="meta-row">
-          <span className="meta-pill">{current.year}</span>
-          <span className="meta-pill">{current.rating}</span>
-          <span className="meta-pill">{current.duration}</span>
-          <span className="meta-pill">{current.genres.slice(0, 3).join(", ")}</span>
-        </div>
-        <div className="actions-row">
-          <Link
-            className="button relative overflow-hidden group"
-            href={playHref}
-            style={{
-              boxShadow: "var(--glow-primary)",
-              transition: "transform 0.2s ease, box-shadow 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              if (shouldReduceMotion) return;
-              e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.boxShadow = "0 0 40px var(--primary-strong)";
-            }}
-            onMouseLeave={(e) => {
-              if (shouldReduceMotion) return;
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = "var(--glow-primary)";
-            }}
-          >
-            <Play size={19} />
-            Putar Sekarang
-          </Link>
-          <Link className="button secondary" href={`/watch/${current.slug}`}>
-            <Info size={19} />
-            Detail
-          </Link>
-        </div>
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current.id}
+          initial={{ opacity: 0, x: direction === "next" ? 30 : -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction === "next" ? -30 : 30 }}
+          transition={{ duration: 0.3 }}
+          className="hero-content featured-copy"
+          data-direction={direction}
+        >
+          <div className="eyebrow">Featured hari ini</div>
+          <h1>{current.title}</h1>
+          <p>{current.synopsis}</p>
+          <div className="meta-row">
+            <span className="meta-pill">{current.year}</span>
+            <span className="meta-pill">{current.rating}</span>
+            <span className="meta-pill">{current.duration}</span>
+            <span className="meta-pill">{current.genres.slice(0, 3).join(", ")}</span>
+          </div>
+          <div className="actions-row">
+            <Link
+              className="button relative overflow-hidden group"
+              href={playHref}
+              style={{
+                boxShadow: "var(--glow-primary)",
+                transition: "transform 0.2s ease, box-shadow 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (shouldReduceMotion) return;
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 40px var(--primary-strong)";
+              }}
+              onMouseLeave={(e) => {
+                if (shouldReduceMotion) return;
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "var(--glow-primary)";
+              }}
+            >
+              <Play size={19} />
+              Putar Sekarang
+            </Link>
+            <Link className="button secondary" href={`/watch/${current.slug}`}>
+              <Info size={19} />
+              Detail
+            </Link>
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       {slides.length > 1 ? (
         <div className="featured-controls" aria-label="Kontrol featured">

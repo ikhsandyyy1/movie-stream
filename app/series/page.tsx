@@ -1,6 +1,8 @@
 import { MovieCard3D } from "@/components/movie-card-3d";
 import { getCatalogTitles } from "@/lib/catalog";
 
+export const revalidate = 3600; // ISR: revalidate every hour
+
 export default async function SeriesPage() {
   const titles = await getCatalogTitles();
   const series = titles.filter((title) => title.type === "series");

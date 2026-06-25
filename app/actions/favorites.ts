@@ -36,16 +36,22 @@ export async function toggleFavorite(formData: FormData) {
 
   if (existing) {
     // Remove from favorites
-    await supabase
+    const { error: deleteError } = await supabase
       .from("favorites")
       .delete()
       .eq("user_id", user.id)
       .eq("title_id", titleId);
+    if (deleteError) {
+      redirect(`/watch/${slug}?error=${encodeURIComponent("Gagal menghapus favorit.")}`);
+    }
   } else {
     // Add to favorites
-    await supabase
+    const { error: insertError } = await supabase
       .from("favorites")
       .insert({ user_id: user.id, title_id: titleId });
+    if (insertError) {
+      redirect(`/watch/${slug}?error=${encodeURIComponent("Gagal menyimpan favorit.")}`);
+    }
   }
 
   revalidatePath(`/watch/${slug}`);

@@ -4,6 +4,8 @@ import { MovieCard } from "@/components/movie-card";
 import { getCatalogFilters, getFilteredCatalogTitles } from "@/lib/catalog";
 import { recordAuditEvent } from "@/lib/studio";
 
+export const dynamic = "force-dynamic"; // search needs fresh data
+
 export default async function SearchPage({
   searchParams
 }: {

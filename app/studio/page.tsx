@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BarChart3, Film, LogOut, Plus, Upload } from "lucide-react";
 import { deleteEpisode, deleteSeason, deleteTitle, saveEpisode, saveSeason, saveTitle, signOutAdmin } from "@/app/studio/actions";
 import { getStudioDashboard, type StudioEpisodeRow, type StudioSeasonRow, type StudioTitleRow } from "@/lib/studio";
+import { CountUp } from "@/components/count-up";
 
 export const metadata: Metadata = {
   title: "Studio - IMOV",
@@ -150,7 +151,7 @@ function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; 
     <div className="panel studio-metric">
       <span aria-hidden="true">{icon}</span>
       <div>
-        <strong>{value}</strong>
+        <strong><CountUp value={Number(value)} /></strong>
         <p className="card-meta">{label}</p>
       </div>
     </div>

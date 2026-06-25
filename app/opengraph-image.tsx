@@ -15,7 +15,7 @@ export default async function OGImage() {
           justifyContent: "center",
           background: "linear-gradient(135deg, #05070b 0%, #101621 50%, #172033 100%)",
           color: "#f8fafc",
-          fontFamily: "Inter, sans-serif",
+          fontFamily: "system-ui, -apple-system, sans-serif",
         }}
       >
         <div style={{ fontSize: 64, fontWeight: 800, marginBottom: 16, display: "flex", alignItems: "center", gap: 16 }}>

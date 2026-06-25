@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { signIn } from "@/app/login/actions";
+import { signIn, signInWithGoogle } from "@/app/login/actions";
 import { Clapperboard } from "lucide-react";
 
 export default async function LoginPage({
@@ -45,6 +45,15 @@ export default async function LoginPage({
           Masuk
         </button>
       </form>
+
+      <div style={{ marginTop: 20, textAlign: "center" }}>
+        <div style={{ color: "var(--muted)", marginBottom: 12, fontSize: 13 }}>atau</div>
+        <form action={signInWithGoogle}>
+          <button className="button secondary" type="submit" style={{ width: "100%", justifyContent: "center" }}>
+            Lanjutkan dengan Google
+          </button>
+        </form>
+      </div>
 
       <div style={{ textAlign: "center", marginTop: 20 }}>
         <Link className="nav-link" href="/register">Belum punya akun? Daftar</Link>

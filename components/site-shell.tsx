@@ -94,36 +94,33 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           Home
         </Link>
         <Link
-          href="/search"
-          className={pathname === "/search" ? "active" : ""}
-        >
-          <Search aria-hidden="true" />
-          Search
-        </Link>
-        <Link
           href="/browse"
           className={pathname === "/browse" ? "active" : ""}
         >
           <Film aria-hidden="true" />
           Browse
         </Link>
-        {isLoggedIn ? (
-          <Link
-            href="/profile"
-            className={pathname.startsWith("/profile") ? "active" : ""}
-          >
-            <User aria-hidden="true" />
-            Profile
-          </Link>
-        ) : (
-          <Link
-            href="/login"
-            className={pathname === "/login" ? "active" : ""}
-          >
-            <LogIn aria-hidden="true" />
-            Masuk
-          </Link>
-        )}
+        <Link
+          href="/movies"
+          className={pathname === "/movies" ? "active" : ""}
+        >
+          <Clapperboard aria-hidden="true" />
+          Movies
+        </Link>
+        <Link
+          href="/series"
+          className={pathname === "/series" ? "active" : ""}
+        >
+          <Tv aria-hidden="true" />
+          Series
+        </Link>
+        <Link
+          href="/search"
+          className={pathname === "/search" ? "active" : ""}
+        >
+          <Search aria-hidden="true" />
+          Search
+        </Link>
       </nav>
     </div>
   );

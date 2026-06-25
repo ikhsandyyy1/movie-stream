@@ -11,6 +11,9 @@ const ContentTypeSchema = z.enum(["movie", "series"]);
 const SourceTypeSchema = z.enum(["owned", "official_embed", "licensed_provider"]);
 const UuidSchema = z.string().uuid();
 const NonEmptyIdSchema = z.string().min(1, "ID cannot be empty");
+const TmdbIdSchema = z.number().int().positive().nullable().optional();
+const SourceUrlSchema = z.string().url().or(z.string().max(0));
+const SeasonNumberSchema = z.number().int().positive();
 
 function text(formData: FormData, key: string, fallback = "") {
   return String(formData.get(key) ?? fallback).trim();
@@ -128,6 +131,15 @@ export async function saveTitle(formData: FormData) {
 
   const title = titleParse.data;
 
+  // Validate optional numeric fields
+  const tmdbIdNum = Number(text(formData, "tmdb_id")) || null;
+  if (tmdbIdNum !== null) {
+    const tmdbParse = z.number().int().positive().safeParse(tmdbIdNum);
+    if (!tmdbParse.success) {
+      redirect("/studio?error=invalid-tmdb-id");
+    }
+  }
+
   const previousPublished = formData.get("previous_published") === "true";
   const isPublished = bool(formData, "is_published");
   const posterUrl = await uploadPublicImage(formData, "poster_file", "posters", slug);
@@ -223,6 +235,8 @@ export async function saveSeason(formData: FormData) {
 
   if (!NonEmptyIdSchema.safeParse(titleId).success) notFound();
 
+  if (seasonNumber < 1) redirect("/studio?error=invalid-season");
+
   const payload = {
     title_id: titleId,
     season_number: seasonNumber,
@@ -265,6 +279,8 @@ export async function saveEpisode(formData: FormData) {
   const episodeNumber = Number(text(formData, "episode_number")) || 1;
 
   if (!NonEmptyIdSchema.safeParse(titleId).success || !NonEmptyIdSchema.safeParse(seasonId).success) notFound();
+
+  if (episodeNumber < 1) redirect("/studio?error=invalid-episode");
 
   const payload = {
     title_id: titleId,
