@@ -35,7 +35,7 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
       : `/watch/${current.slug}/play`;
 
   return (
-    <section className="hero featured-carousel hero-nxsha" style={{ "--hero-image": current.backdrop } as React.CSSProperties}>
+    <section className="hero-nxsha" style={{ "--hero-image": current.backdrop } as React.CSSProperties}>
       {/* Prev / Next nav arrows */}
       {slides.length > 1 ? (
         <>
