@@ -1,5 +1,4 @@
 import { FeaturedCarousel } from "@/components/featured-carousel";
-import { TitleRail } from "@/components/title-rail";
 import { AnimatedRail } from "@/components/animated-rail";
 import { getCatalogTitles } from "@/lib/catalog";
 import type { Title } from "@/lib/data";
