@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Info, Play } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import type { Title } from "@/lib/data";
 import { LayerParallaxHero } from "@/components/ui/layer-parallax-hero";
 
@@ -25,6 +26,8 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
     }, 6500);
     return () => window.clearInterval(id);
   }, [slides.length]);
+
+  const shouldReduceMotion = useReducedMotion();
 
   if (!current) return null;
 
@@ -116,10 +119,12 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
               transition: "transform 0.2s ease, box-shadow 0.3s ease",
             }}
             onMouseEnter={(e) => {
+              if (shouldReduceMotion) return;
               e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.boxShadow = "0 0 40px rgba(229, 9, 20, 0.6)";
+              e.currentTarget.style.boxShadow = "0 0 40px var(--primary-strong)";
             }}
             onMouseLeave={(e) => {
+              if (shouldReduceMotion) return;
               e.currentTarget.style.transform = "scale(1)";
               e.currentTarget.style.boxShadow = "var(--glow-primary)";
             }}

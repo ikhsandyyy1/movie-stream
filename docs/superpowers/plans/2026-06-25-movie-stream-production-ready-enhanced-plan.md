@@ -22,7 +22,7 @@
 
 ---
 
-### GOAL 0: Project Setup, Dependencies & Infrastructure
+### Task 0: Project Setup, Dependencies & Infrastructure
 
 **Files:**
 - Modify: `package.json` — add dependencies
@@ -143,7 +143,7 @@ git commit -m "chore: setup project dependencies and utility functions"
 
 ---
 
-### GOAL 1: Error Boundaries & Loading States
+### Task 1: Error Boundaries & Loading States
 
 **Files:**
 - Create: `app/error.tsx`
@@ -342,7 +342,7 @@ git commit -m "feat: add error boundaries and loading skeletons for all routes"
 
 ---
 
-### GOAL 2: 3D Poster Cards
+### Task 2: 3D Poster Cards
 
 **Files:**
 - Create: `components/ui/interactive-card.tsx`
@@ -488,7 +488,7 @@ git commit -m "feat: add 3D interactive poster cards with tilt effect"
 
 ---
 
-### GOAL 3: 3D Hero & Featured Section
+### Task 3: 3D Hero & Featured Section
 
 **Files:**
 - Create: `components/ui/layer-parallax-hero.tsx`
@@ -651,7 +651,7 @@ git commit -m "feat: add 3D parallax depth layers to featured hero section"
 
 ---
 
-### GOAL 4: Page Transitions
+### Task 4: Page Transitions
 
 **Files:**
 - Create: `components/ui/page-transition.tsx`
@@ -736,7 +736,7 @@ git commit -m "feat: add page transitions with AnimatePresence"
 
 ---
 
-### GOAL 5: Scroll-Reveal & Stagger Animations
+### Task 5: Scroll-Reveal & Stagger Animations
 
 **Files:**
 - Create: `components/ui/container-scroll.tsx`
@@ -904,7 +904,7 @@ git commit -m "feat: add scroll-reveal stagger animations across pages"
 
 ---
 
-### GOAL 6: Micro-Interactions
+### Task 6: Micro-Interactions
 
 **Files:**
 - Modify: `app/globals.css` — add transition defaults
@@ -954,7 +954,7 @@ git commit -m "feat: add micro-interactions to buttons, pills, and tabs"
 
 ---
 
-### GOAL 7: Bento Grid Gallery
+### Task 7: Bento Grid Gallery
 
 **Files:**
 - Create: `components/ui/bento-grid.tsx`
@@ -1070,7 +1070,7 @@ git commit -m "feat: add bento grid gallery with 3D interactive cards"
 
 ---
 
-### GOAL 8: Security Hardening
+### Task 8: Security Hardening
 
 **Files:**
 - Create: `lib/env.ts`
@@ -1240,7 +1240,7 @@ git commit -m "feat: add security hardening - CSP, rate limiting, Zod validation
 
 ---
 
-### GOAL 9: SEO & Metadata
+### Task 9: SEO & Metadata
 
 **Files:**
 - Create: `app/sitemap.ts`
@@ -1366,7 +1366,7 @@ git commit -m "feat: add SEO - sitemap, robots, metadata, JSON-LD"
 
 ---
 
-### GOAL 10: Auth & User Features
+### Task 10: Auth & User Features
 
 **Files:**
 - Create: `app/register/page.tsx`
@@ -1450,7 +1450,7 @@ git commit -m "feat: add auth pages and user features"
 
 ---
 
-### GOAL 11: Performance Optimization
+### Task 11: Performance Optimization
 
 **Files:**
 - Modify: `lib/catalog.ts` — add React.cache()
@@ -1497,7 +1497,7 @@ git commit -m "perf: add caching, font optimization, image config"
 
 ---
 
-### GOAL 12: Testing
+### Task 12: Testing
 
 **Files:**
 - Create: `vitest.config.ts`
@@ -1646,7 +1646,7 @@ git commit -m "test: add unit tests for images, nxsha, and data utilities"
 
 ---
 
-### GOAL 13: CI/CD & Monitoring
+### Task 13: CI/CD & Monitoring
 
 **Files:**
 - Create: `.github/workflows/ci.yml`
