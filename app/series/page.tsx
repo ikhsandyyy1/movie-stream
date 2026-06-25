@@ -1,4 +1,4 @@
-import { MovieCard } from "@/components/movie-card";
+import { MovieCard3D } from "@/components/movie-card-3d";
 import { getCatalogTitles } from "@/lib/catalog";
 
 export default async function SeriesPage() {
@@ -12,7 +12,7 @@ export default async function SeriesPage() {
       <p className="lead">Serial dan episode terbaru dari konten milik sendiri maupun provider resmi.</p>
       <div className="grid">
         {series.map((title) => (
-          <MovieCard key={title.id} title={title} />
+          <MovieCard3D key={title.id} title={title} />
         ))}
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Title } from "@/lib/data";
-import { MovieCard } from "@/components/movie-card";
+import { MovieCard3D } from "@/components/movie-card-3d";
 
 export function TitleRail({
   title,
@@ -25,7 +25,7 @@ export function TitleRail({
       </div>
       <div className="rail">
         {items.map((item) => (
-          <MovieCard key={item.id} title={item} />
+          <MovieCard3D key={item.id} title={item} />
         ))}
       </div>
     </section>
