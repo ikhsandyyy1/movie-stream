@@ -1,11 +1,39 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, Heart, Play } from "lucide-react";
+import type { Metadata } from "next";
 import { MovieCard } from "@/components/movie-card";
 import { PosterImage } from "@/components/poster-image";
 import { ContainerStagger, ContainerAnimated } from "@/components/ui/container-scroll";
 import { getCatalogTitleBySlug, getFirstEpisode, getRelatedTitles } from "@/lib/catalog";
 import { recordAuditEvent } from "@/lib/studio";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const { getCatalogTitleBySlug } = await import("@/lib/catalog");
+  const title = await getCatalogTitleBySlug(slug);
+
+  if (!title) {
+    return { title: "Not Found - IMOV" };
+  }
+
+  return {
+    title: `${title.title} - IMOV`,
+    description: title.synopsis.slice(0, 160),
+    openGraph: {
+      title: `${title.title} - IMOV`,
+      description: title.synopsis.slice(0, 160),
+      type: title.type === "movie" ? "video.movie" : "video.tv_show",
+      images: [{ url: title.poster, width: 500, height: 750 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title.title} - IMOV`,
+      description: title.synopsis.slice(0, 160),
+      images: [title.poster],
+    },
+  };
+}
 
 export default async function WatchDetailPage({
   params,
@@ -188,6 +216,28 @@ export default async function WatchDetailPage({
       </div>
     </ContainerStagger>
   </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": title.type === "movie" ? "Movie" : "TVSeries",
+            name: title.title,
+            description: title.synopsis,
+            image: title.poster,
+            datePublished: String(title.year),
+            ...(title.imdbRating ? {
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: title.imdbRating,
+                ratingCount: title.imdbVotes,
+                bestRating: 10,
+              },
+            } : {}),
+          }),
+        }}
+      />
     </>
   );
 }

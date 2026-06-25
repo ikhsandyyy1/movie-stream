@@ -1,9 +1,25 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Play } from "lucide-react";
+import type { Metadata } from "next";
 import { getCatalogTitleBySlug, getFirstEpisode } from "@/lib/catalog";
 import { buildNxshaEmbedUrl, NXSHA_EMBED_LABEL } from "@/lib/nxsha";
 import { recordAuditEvent } from "@/lib/studio";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const title = await getCatalogTitleBySlug(slug);
+
+  if (!title) {
+    return { title: "Not Found - IMOV" };
+  }
+
+  return {
+    title: `Playing ${title.title} - IMOV`,
+    description: title.synopsis.slice(0, 160),
+    robots: { index: false, follow: true },
+  };
+}
 
 export default async function PlayerPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
