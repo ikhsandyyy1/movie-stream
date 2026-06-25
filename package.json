@@ -10,7 +10,8 @@
     "data:idlix-latest": "node scripts/import-idlix-latest.mjs",
     "data:imdb-featured": "node scripts/import-imdb-featured.mjs",
     "data:tmdb-refresh": "node scripts/refresh-tmdb-metadata.mjs",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
