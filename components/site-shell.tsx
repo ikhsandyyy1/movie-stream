@@ -12,6 +12,7 @@ import {
 
 const navItems = [
   { href: "/", label: "Beranda" },
+  { href: "/browse", label: "Jelajahi" },
   { href: "/movies", label: "Film" },
   { href: "/series", label: "Serial TV" },
   { href: "/ranking", label: "Papan Peringkat" }
@@ -67,6 +68,13 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         >
           <Search aria-hidden="true" />
           Search
+        </Link>
+        <Link
+          href="/browse"
+          className={pathname === "/browse" ? "active" : ""}
+        >
+          <Film aria-hidden="true" />
+          Browse
         </Link>
         <Link
           href="/movies"
