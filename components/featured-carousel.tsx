@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Info, Play } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Title } from "@/lib/data";
+import { LayerParallaxHero } from "@/components/ui/layer-parallax-hero";
 
 export function FeaturedCarousel({ items }: { items: Title[] }) {
   const slides = useMemo(() => items.slice(0, 5), [items]);
@@ -33,7 +34,51 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
       : `/watch/${current.slug}/play`;
 
   return (
-    <section className="hero featured-carousel" data-direction={direction} style={{ "--hero-image": current.backdrop } as React.CSSProperties}>
+    <LayerParallaxHero
+      className="hero featured-carousel"
+      style={{ "--hero-image": current.backdrop } as React.CSSProperties}
+      layers={[
+        {
+          depth: 30,
+          children: (
+            <div
+              style={{
+                ...(current.backdrop
+                  ? {
+                      backgroundImage: current.backdrop,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      filter: "blur(4px)",
+                      opacity: 0.6,
+                      transform: "scale(1.1)",
+                    }
+                  : {}),
+                position: "absolute",
+                inset: 0,
+              }}
+            />
+          ),
+        },
+        {
+          depth: 15,
+          children: (
+            <div
+              style={{
+                ...(current.backdrop
+                  ? {
+                      backgroundImage: current.backdrop,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }
+                  : {}),
+                position: "absolute",
+                inset: 0,
+              }}
+            />
+          ),
+        },
+      ]}
+    >
       <div className="featured-poster-strip" aria-hidden="true">
         {slides.map((slide, index) => (
           <button
@@ -42,6 +87,10 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
             onClick={() => goTo(index, index > active ? "next" : "prev")}
             tabIndex={-1}
             type="button"
+            style={{
+              transform: `translateY(${index === active ? -8 : 0}px) perspective(600px) rotateY(${(index - active) * 5}deg)`,
+              transition: "all 0.3s ease",
+            }}
           >
             <span style={{ backgroundImage: `url('${slide.poster}')` }} />
           </button>
@@ -59,7 +108,22 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
           <span className="meta-pill">{current.genres.slice(0, 3).join(", ")}</span>
         </div>
         <div className="actions-row">
-          <Link className="button" href={playHref}>
+          <Link
+            className="button relative overflow-hidden group"
+            href={playHref}
+            style={{
+              boxShadow: "var(--glow-primary)",
+              transition: "transform 0.2s ease, box-shadow 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.05)";
+              e.currentTarget.style.boxShadow = "0 0 40px rgba(229, 9, 20, 0.6)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = "var(--glow-primary)";
+            }}
+          >
             <Play size={19} />
             Putar Sekarang
           </Link>
@@ -92,6 +156,6 @@ export function FeaturedCarousel({ items }: { items: Title[] }) {
           </button>
         </div>
       ) : null}
-    </section>
+    </LayerParallaxHero>
   );
 }
