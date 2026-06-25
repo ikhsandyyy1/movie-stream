@@ -2,16 +2,28 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { z } from "zod";
+
+const LoginSchema = z.object({
+  email: z.string().email("Email tidak valid"),
+  password: z.string().min(6, "Password minimal 6 karakter"),
+});
 
 export async function signIn(formData: FormData) {
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
+  const rawEmail = String(formData.get("email") ?? "").trim();
+  const rawPassword = String(formData.get("password") ?? "");
   const next = String(formData.get("next") ?? "/").trim() || "/";
 
-  if (!email || !password) {
-    redirect(`/login?error=${encodeURIComponent("Email dan password wajib diisi.")}&next=${encodeURIComponent(next)}`);
+  const parsed = LoginSchema.safeParse({
+    email: rawEmail,
+    password: rawPassword,
+  });
+
+  if (!parsed.success) {
+    redirect(`/login?error=${encodeURIComponent(parsed.error.issues[0].message)}&next=${encodeURIComponent(next)}`);
   }
 
+  const { email, password } = parsed.data;
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 

@@ -30,6 +30,14 @@ export async function middleware(request: NextRequest) {
 
   await supabase.auth.getClaims();
 
+  // Protect studio routes
+  if (request.nextUrl.pathname.startsWith("/studio")) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user && !request.nextUrl.pathname.startsWith("/studio/login")) {
+      return NextResponse.redirect(new URL("/studio/login", request.url));
+    }
+  }
+
   return response;
 }
 

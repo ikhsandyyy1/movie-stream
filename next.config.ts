@@ -14,7 +14,43 @@ const nextConfig: NextConfig = {
     ]
   },
   // For Three.js (Ethereal component)
-  transpilePackages: ["three"]
+  transpilePackages: ["three"],
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://image.tmdb.org https://*.supabase.co https://*.unsplash.com https://*.wikipedia.org https://archive.org",
+              "media-src 'self' https://*.supabase.co https://archive.org",
+              "frame-src 'self' https://web.nxsha.app https://archive.org",
+              "connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com https://o450000.ingest.sentry.io",
+              "font-src 'self' data:",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join("; "),
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
