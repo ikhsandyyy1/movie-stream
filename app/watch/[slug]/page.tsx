@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, Clock, Heart, Play } from "lucide-react";
+import { Calendar, Clock, Heart, Play, ChevronDown } from "lucide-react";
 import type { Metadata } from "next";
 import { MovieCard } from "@/components/movie-card";
 import { PosterImage } from "@/components/poster-image";
-import { ContainerStagger, ContainerAnimated } from "@/components/ui/container-scroll";
 import { getCatalogTitleBySlug, getFirstEpisode, getRelatedTitles } from "@/lib/catalog";
 import { recordAuditEvent } from "@/lib/studio";
 import { createClient } from "@/lib/supabase/server";
@@ -59,12 +58,8 @@ export default async function WatchDetailPage({
   const activeSeason =
     title.seasons?.find((season) => season.seasonNumber === requestedSeason) ??
     title.seasons?.find((season) => season.episodes.length > 0);
-  const playHref =
-    title.type === "series" && firstEpisode
-      ? `/watch/${title.slug}/season/${firstEpisode.seasonNumber}/episode/${firstEpisode.episodeNumber}`
-      : `/watch/${title.slug}/play`;
 
-  // Check if this title is favorited by the current user
+  // Check if favorited
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   let isFavorited = false;
@@ -78,185 +73,146 @@ export default async function WatchDetailPage({
     isFavorited = !!fav;
   }
 
+  const playHref =
+    title.type === "series" && firstEpisode
+      ? `/watch/${title.slug}/season/${firstEpisode.seasonNumber}/episode/${firstEpisode.episodeNumber}`
+      : `/watch/${title.slug}/play`;
+
   return (
     <>
-      <section className="hero" style={{ "--hero-image": title.backdrop } as React.CSSProperties}>
-        <div className="hero-content">
-          <div className="eyebrow">{title.type === "movie" ? "Film" : "Serial TV"}</div>
-          <h1>{title.title}</h1>
-          <p>{title.synopsis}</p>
-          <div className="meta-row">
-            <span className="meta-pill">{title.year}</span>
-            <span className="meta-pill">{title.country}</span>
-            <span className="meta-pill">{title.network}</span>
-            <span className="meta-pill">{title.duration}</span>
-            <span className="meta-pill">{title.rating}</span>
-            {title.imdbRating ? <span className="meta-pill">IMDb {title.imdbRating.toFixed(1)}</span> : null}
+      {/* ===== HERO SECTION (nxsha-style) ===== */}
+      <section className="detail-hero" style={{ "--hero-image": title.backdrop } as React.CSSProperties}>
+        <div className="detail-hero-overlay" />
+        <div className="detail-hero-content">
+          <div className="detail-hero-poster">
+            <PosterImage src={title.poster} alt={title.title} priority sizes="200px" />
           </div>
-          <div className="actions-row">
-            <Link className="button" href={playHref}>
-              <Play size={19} />
-              {title.type === "series" && firstEpisode ? `Putar S${firstEpisode.seasonNumber} E${firstEpisode.episodeNumber}` : "Putar"}
-            </Link>
-            <form action={toggleFavorite}>
-              <input type="hidden" name="title_id" value={title.id} />
-              <input type="hidden" name="slug" value={title.slug} />
-              <button className={`button secondary${isFavorited ? " favorited" : ""}`} type="submit" style={isFavorited ? { color: "var(--primary)", borderColor: "var(--primary)" } : undefined}>
-                <Heart size={19} fill={isFavorited ? "var(--primary)" : "none"} />
-                {isFavorited ? "Favorit" : "Favorit"}
-              </button>
-            </form>
+          <div className="detail-hero-info">
+            {/* Type badge */}
+            <div className="detail-hero-badge">{title.type === "movie" ? "Movie" : "Series"}</div>
+
+            {/* Title */}
+            <h1 className="detail-hero-title">{title.title}</h1>
+
+            {/* Meta row: rating + year + duration */}
+            <div className="detail-hero-meta">
+              {title.imdbRating ? (
+                <span className="detail-hero-pill detail-hero-pill-rating">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFC300" stroke="#FFC300" strokeWidth="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <span>{title.imdbRating.toFixed(1)}</span>
+                </span>
+              ) : null}
+              <span className="detail-hero-pill">{title.year}</span>
+              <span className="detail-hero-pill">{title.duration}</span>
+              <span className="detail-hero-pill">{title.rating}</span>
+            </div>
+
+            {/* Synopsis */}
+            <p className="detail-hero-synopsis">{title.synopsis}</p>
+
+            {/* Genre pills */}
+            <div className="detail-hero-genres">
+              {title.genres.map((genre) => (
+                <Link className="detail-hero-genre" href={`/search?genre=${encodeURIComponent(genre)}`} key={genre}>
+                  {genre}
+                </Link>
+              ))}
+            </div>
+
+            {/* CTA buttons */}
+            <div className="detail-hero-actions">
+              <Link className="btn-yellow" href={playHref}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,1 14,8 3,15" /></svg>
+                {title.type === "series" && firstEpisode ? `Play S${firstEpisode.seasonNumber} E${firstEpisode.episodeNumber}` : "Watch Now"}
+              </Link>
+              <form action={toggleFavorite} style={{ display: "inline" }}>
+                <input type="hidden" name="title_id" value={title.id} />
+                <input type="hidden" name="slug" value={title.slug} />
+                <button className={`btn-outline${isFavorited ? " favorited" : ""}`} type="submit">
+                  <Heart size={18} fill={isFavorited ? "var(--primary)" : "none"} />
+                  {isFavorited ? "Saved" : "Save to Watchlist"}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
 
-      <div className="page">
-        <ContainerStagger>
-          <div className="detail-layout">
-            <div className="detail-poster">
-              <ContainerAnimated animation="fade">
-                <PosterImage src={title.poster} alt={title.title} priority sizes="(max-width: 920px) 230px, 280px" />
-              </ContainerAnimated>
-            </div>
-            <div>
-              <ContainerAnimated animation="top">
-                <section className="panel">
-                  <h2>Info Konten</h2>
-                  <p className="lead">{title.synopsis}</p>
-              <div className="meta-row">
-                {title.genres.map((genre) => (
-                  <Link className="meta-pill" href={`/search?genre=${encodeURIComponent(genre)}`} key={genre}>
-                    {genre}
+      {/* ===== EPISODES (untuk series) ===== */}
+      {title.type === "series" ? (
+        <div className="page">
+          {title.seasons?.length ? (
+            <section id="episodes">
+              {/* Season tabs */}
+              <nav className="detail-season-tabs" aria-label="Seasons">
+                {title.seasons.map((season) => (
+                  <Link
+                    key={season.id}
+                    className={`detail-season-tab${season.seasonNumber === activeSeason?.seasonNumber ? " active" : ""}`}
+                    href={`/watch/${title.slug}?season=${season.seasonNumber}#episodes`}
+                    aria-current={season.seasonNumber === activeSeason?.seasonNumber ? "true" : undefined}
+                  >
+                    {season.name}
                   </Link>
                 ))}
-              </div>
-              <h3>Sumber video resmi</h3>
-              <div style={{ display: "grid", gap: 10 }}>
-                {title.sources.map((source) => (
-                  <div className="panel" key={source.id} style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                    <strong>{source.label}</strong>
-                    <span className="card-meta">
-                      {source.type.replaceAll("_", " ")} · {source.quality}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
+              </nav>
 
-            {title.type === "series" ? (
-              <section className="section" id="episodes">
-                <div className="section-head episode-head">
-                  <div>
-                    <div className="eyebrow">Episode</div>
-                    <h2>Pilih Season</h2>
-                  </div>
-                  <span className="card-meta">{title.seasons?.reduce((count, season) => count + season.episodes.length, 0) ?? 0} episode</span>
+              {/* Season info + episode grid */}
+              {activeSeason ? (
+                <div key={activeSeason.id} className="detail-season-panel">
+                  {activeSeason.episodes.map((episode) => (
+                    <Link
+                      key={episode.id}
+                      className="detail-episode-card"
+                      href={`/watch/${title.slug}/season/${episode.seasonNumber}/episode/${episode.episodeNumber}`}
+                    >
+                      <div className="detail-episode-still" style={{ backgroundImage: episode.still, backgroundSize: "cover", backgroundPosition: "center" }}>
+                        <span className="detail-episode-num">EPISODE {episode.episodeNumber}</span>
+                        <div className="detail-episode-still-overlay">
+                          <Play size={36} />
+                        </div>
+                      </div>
+                      <div className="detail-episode-info">
+                        <div className="detail-episode-header">
+                          <strong>{episode.title}</strong>
+                          <span className="detail-episode-dur">
+                            <Clock size={14} /> {episode.duration}
+                          </span>
+                        </div>
+                        <p className="detail-episode-synopsis">{episode.synopsis}</p>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-
-                {title.seasons?.length ? (
-                  <div className="season-stack">
-                    <nav className="season-tabs" aria-label="Daftar season">
-                      {title.seasons.map((season) => (
-                        <Link
-                          className={`season-tab${season.seasonNumber === activeSeason?.seasonNumber ? " active" : ""}`}
-                          href={`/watch/${title.slug}?season=${season.seasonNumber}#episodes`}
-                          key={season.id}
-                          aria-current={season.seasonNumber === activeSeason?.seasonNumber ? "true" : undefined}
-                        >
-                          <span>{season.name}</span>
-                          <small>{season.episodes.length} episode</small>
-                        </Link>
-                      ))}
-                    </nav>
-
-                    {activeSeason ? (
-                      <section className="season-panel" id={`season-${activeSeason.seasonNumber}`} key={activeSeason.id}>
-                        <div className="section-head">
-                          <div>
-                            <h3>{activeSeason.name}</h3>
-                            <p className="card-meta">{activeSeason.synopsis}</p>
-                          </div>
-                        </div>
-                        <div className="episode-grid">
-                          {activeSeason.episodes.map((episode) => (
-                            <Link
-                              className="episode-card"
-                              href={`/watch/${title.slug}/season/${episode.seasonNumber}/episode/${episode.episodeNumber}`}
-                              key={episode.id}
-                            >
-                              <div className="episode-still" style={{ "--episode-image": episode.still } as React.CSSProperties}>
-                                <span className="episode-code">
-                                  S{episode.seasonNumber}E{episode.episodeNumber}
-                                </span>
-                                <span className="episode-play" aria-hidden="true">
-                                  <Play size={18} />
-                                </span>
-                              </div>
-                              <div className="episode-copy">
-                                <strong>{episode.title}</strong>
-                                <span className="card-meta">
-                                  <Clock size={14} /> {episode.duration}
-                                  {episode.airDate ? (
-                                    <>
-                                      {" "}
-                                      <Calendar size={14} /> {new Date(episode.airDate).getFullYear()}
-                                    </>
-                                  ) : null}
-                                </span>
-                                <p>{episode.synopsis}</p>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                      </section>
-                    ) : null}
-                  </div>
-                ) : (
-                  <div className="panel">
-                    <h3>Episode belum tersedia</h3>
-                    <p className="lead">Season dan episode akan muncul di sini setelah ditambahkan dari Studio.</p>
-                  </div>
-                )}
-              </section>
-            ) : null}
-
-            <section className="section">
-              <div className="section-head">
-                <h2>Judul Terkait</h2>
-              </div>
-              <div className="grid">
-                {related.map((item) => (
-                  <MovieCard key={item.id} title={item} />
-                ))}
-              </div>
+              ) : null}
             </section>
-          </ContainerAnimated>
+          ) : (
+            <div className="panel">
+              <h3>Episode belum tersedia</h3>
+              <p className="lead">Season dan episode akan muncul di sini setelah ditambahkan dari Studio.</p>
+            </div>
+          )}
         </div>
-      </div>
-    </ContainerStagger>
-  </div>
+      ) : null}
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": title.type === "movie" ? "Movie" : "TVSeries",
-            name: title.title,
-            description: title.synopsis,
-            image: title.poster,
-            datePublished: String(title.year),
-            ...(title.imdbRating ? {
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: title.imdbRating,
-                ratingCount: title.imdbVotes,
-                bestRating: 10,
-              },
-            } : {}),
-          }),
-        }}
-      />
+      {/* ===== RELATED TITLES ===== */}
+      {related.length > 0 ? (
+        <div className="page">
+          <section>
+            <div className="section-head">
+              <h2>More Like This</h2>
+              <Link className="nav-link" href="/search">Browse all</Link>
+            </div>
+            <div className="grid">
+              {related.map((item) => (
+                <MovieCard key={item.id} title={item} />
+              ))}
+            </div>
+          </section>
+        </div>
+      ) : null}
     </>
   );
 }
