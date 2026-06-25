@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
 import { z } from "zod";
 
 const LoginSchema = z.object({
@@ -24,6 +25,13 @@ export async function signIn(formData: FormData) {
   }
 
   const { email, password } = parsed.data;
+
+  // Rate limit: max 5 attempts per email per minute
+  const { allowed } = rateLimit(`login:${email}`, 5, 60000);
+  if (!allowed) {
+    redirect(`/login?error=${encodeURIComponent("Terlalu banyak percobaan. Coba lagi dalam 1 menit.")}&next=${encodeURIComponent(next)}`);
+  }
+
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 

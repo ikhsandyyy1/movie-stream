@@ -2,8 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { recordAuditEvent, requireAdmin } from "@/lib/studio";
+
+const SlugSchema = z.string().min(1).max(200).regex(/^[a-z0-9-]+$/);
+const ContentTypeSchema = z.enum(["movie", "series"]);
+const SourceTypeSchema = z.enum(["owned", "official_embed", "licensed_provider"]);
+const UuidSchema = z.string().uuid();
+const NonEmptyIdSchema = z.string().min(1, "ID cannot be empty");
 
 function text(formData: FormData, key: string, fallback = "") {
   return String(formData.get(key) ?? fallback).trim();
@@ -109,12 +116,17 @@ export async function saveTitle(formData: FormData) {
   const { supabase, admin } = await requireAdmin();
   const titleId = text(formData, "title_id");
   const sourceId = text(formData, "source_id");
-  const title = text(formData, "title");
-  const slug = slugify(text(formData, "slug") || title);
+  const titleStr = text(formData, "title");
+  const slug = slugify(text(formData, "slug") || titleStr);
 
-  if (!title || !slug) {
-    redirect("/studio?error=missing-title");
+  // Validate inputs with Zod
+  const titleParse = z.string().min(1).max(500).safeParse(titleStr);
+  const slugParse = SlugSchema.safeParse(slug);
+  if (!titleParse.success || !slugParse.success) {
+    redirect("/studio?error=invalid-title");
   }
+
+  const title = titleParse.data;
 
   const previousPublished = formData.get("previous_published") === "true";
   const isPublished = bool(formData, "is_published");
@@ -209,7 +221,7 @@ export async function saveSeason(formData: FormData) {
   const seasonId = text(formData, "season_id");
   const seasonNumber = Number(text(formData, "season_number")) || 1;
 
-  if (!titleId) notFound();
+  if (!NonEmptyIdSchema.safeParse(titleId).success) notFound();
 
   const payload = {
     title_id: titleId,
@@ -252,7 +264,7 @@ export async function saveEpisode(formData: FormData) {
   const seasonNumber = Number(text(formData, "episode_season_number")) || 1;
   const episodeNumber = Number(text(formData, "episode_number")) || 1;
 
-  if (!titleId || !seasonId) notFound();
+  if (!NonEmptyIdSchema.safeParse(titleId).success || !NonEmptyIdSchema.safeParse(seasonId).success) notFound();
 
   const payload = {
     title_id: titleId,
@@ -316,7 +328,7 @@ export async function deleteSeason(formData: FormData) {
   const titleSlug = text(formData, "title_slug");
   const seasonNumber = Number(text(formData, "season_number")) || null;
 
-  if (!seasonId || !titleId) notFound();
+  if (!NonEmptyIdSchema.safeParse(seasonId).success || !NonEmptyIdSchema.safeParse(titleId).success) notFound();
 
   const { error } = await supabase.from("seasons").delete().eq("id", seasonId);
   if (error) redirect(`/studio?error=${encodeURIComponent(error.message)}`);
@@ -344,7 +356,7 @@ export async function deleteEpisode(formData: FormData) {
   const seasonNumber = Number(text(formData, "season_number")) || null;
   const episodeNumber = Number(text(formData, "episode_number")) || null;
 
-  if (!episodeId || !titleId) notFound();
+  if (!NonEmptyIdSchema.safeParse(episodeId).success || !NonEmptyIdSchema.safeParse(titleId).success) notFound();
 
   const { error } = await supabase.from("episodes").delete().eq("id", episodeId);
   if (error) redirect(`/studio?error=${encodeURIComponent(error.message)}`);
@@ -369,7 +381,7 @@ export async function deleteTitle(formData: FormData) {
   const titleId = text(formData, "title_id");
   const titleSlug = text(formData, "slug");
 
-  if (!titleId) notFound();
+  if (!NonEmptyIdSchema.safeParse(titleId).success) notFound();
 
   const { error } = await supabase.from("titles").delete().eq("id", titleId);
   if (error) redirect(`/studio?error=${encodeURIComponent(error.message)}`);
