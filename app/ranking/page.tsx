@@ -1,4 +1,5 @@
 import { MovieCard } from "@/components/movie-card";
+import { ContainerStagger, ContainerAnimated } from "@/components/ui/container-scroll";
 import { getCatalogTitles } from "@/lib/catalog";
 import type { ContentType, Title } from "@/lib/data";
 
@@ -9,31 +10,39 @@ export default async function RankingPage() {
 
   return (
     <div className="page">
-      <div className="eyebrow">Papan Peringkat IMDb</div>
-      <h1 className="page-title">Top Rated Movies & Series</h1>
-      <p className="lead">Peringkat memakai rating dan vote IMDb, dengan poster dan detail dari TMDB.</p>
-      <RankingSection title="Top 50 Movies" items={topMovies} />
-      <RankingSection title="Top 50 Series" items={topSeries} />
+      <ContainerStagger>
+        <ContainerAnimated animation="fade">
+          <div className="eyebrow">Papan Peringkat IMDb</div>
+          <h1 className="page-title">Top Rated Movies & Series</h1>
+          <p className="lead">Peringkat memakai rating dan vote IMDb, dengan poster dan detail dari TMDB.</p>
+        </ContainerAnimated>
+        <RankingSection title="Top 50 Movies" items={topMovies} />
+        <RankingSection title="Top 50 Series" items={topSeries} />
+      </ContainerStagger>
     </div>
   );
 }
 
 function RankingSection({ title, items }: { title: string; items: Title[] }) {
   return (
-    <section className="section">
-      <div className="section-head">
-        <div>
-          <div className="eyebrow">IMDb</div>
-          <h2>{title}</h2>
+    <ContainerStagger className="section">
+      <ContainerAnimated animation="left">
+        <div className="section-head">
+          <div>
+            <div className="eyebrow">IMDb</div>
+            <h2>{title}</h2>
+          </div>
+          <span className="card-meta">{items.length} judul</span>
         </div>
-        <span className="card-meta">{items.length} judul</span>
-      </div>
+      </ContainerAnimated>
       <div className="grid">
         {items.map((item) => (
-          <MovieCard key={item.id} title={item} />
+          <ContainerAnimated key={item.id} animation="bottom">
+            <MovieCard title={item} />
+          </ContainerAnimated>
         ))}
       </div>
-    </section>
+    </ContainerStagger>
   );
 }
 

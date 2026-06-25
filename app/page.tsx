@@ -1,5 +1,6 @@
 import { FeaturedCarousel } from "@/components/featured-carousel";
 import { TitleRail } from "@/components/title-rail";
+import { AnimatedRail } from "@/components/animated-rail";
 import { getCatalogTitles } from "@/lib/catalog";
 import type { Title } from "@/lib/data";
 
@@ -42,10 +43,10 @@ export default async function HomePage() {
       <FeaturedCarousel items={featured.length ? featured : titles.slice(0, 5)} />
 
       <div className="page">
-        <TitleRail title="Now Playing" href="/movies" items={nowPlaying} />
-        <TitleRail title="Trending Movies" href="/movies" items={trendingMovies} />
-        <TitleRail title="Top Rated" href="/ranking" items={topRated} />
-        <TitleRail title="Trending TV Show" href="/series" items={trendingTvShow} />
+        <AnimatedRail title="Now Playing" href="/movies" items={nowPlaying} />
+        <AnimatedRail title="Trending Movies" href="/movies" items={trendingMovies} />
+        <AnimatedRail title="Top Rated" href="/ranking" items={topRated} />
+        <AnimatedRail title="Trending TV Show" href="/series" items={trendingTvShow} />
       </div>
     </>
   );

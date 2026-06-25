@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Calendar, Clock, Heart, Play } from "lucide-react";
 import { MovieCard } from "@/components/movie-card";
 import { PosterImage } from "@/components/poster-image";
+import { ContainerStagger, ContainerAnimated } from "@/components/ui/container-scroll";
 import { getCatalogTitleBySlug, getFirstEpisode, getRelatedTitles } from "@/lib/catalog";
 import { recordAuditEvent } from "@/lib/studio";
 
@@ -63,14 +64,18 @@ export default async function WatchDetailPage({
       </section>
 
       <div className="page">
-        <div className="detail-layout">
-          <div className="detail-poster">
-            <PosterImage src={title.poster} alt={title.title} priority sizes="(max-width: 920px) 230px, 280px" />
-          </div>
-          <div>
-            <section className="panel">
-              <h2>Info Konten</h2>
-              <p className="lead">{title.synopsis}</p>
+        <ContainerStagger>
+          <div className="detail-layout">
+            <div className="detail-poster">
+              <ContainerAnimated animation="fade">
+                <PosterImage src={title.poster} alt={title.title} priority sizes="(max-width: 920px) 230px, 280px" />
+              </ContainerAnimated>
+            </div>
+            <div>
+              <ContainerAnimated animation="top">
+                <section className="panel">
+                  <h2>Info Konten</h2>
+                  <p className="lead">{title.synopsis}</p>
               <div className="meta-row">
                 {title.genres.map((genre) => (
                   <Link className="meta-pill" href={`/search?genre=${encodeURIComponent(genre)}`} key={genre}>
@@ -178,9 +183,11 @@ export default async function WatchDetailPage({
                 ))}
               </div>
             </section>
-          </div>
+          </ContainerAnimated>
         </div>
       </div>
+    </ContainerStagger>
+  </div>
     </>
   );
 }
