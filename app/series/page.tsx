@@ -1,0 +1,20 @@
+import { MovieCard } from "@/components/movie-card";
+import { getCatalogTitles } from "@/lib/catalog";
+
+export default async function SeriesPage() {
+  const titles = await getCatalogTitles();
+  const series = titles.filter((title) => title.type === "series");
+
+  return (
+    <div className="page">
+      <div className="eyebrow">Katalog</div>
+      <h1 className="page-title">Serial TV</h1>
+      <p className="lead">Serial dan episode terbaru dari konten milik sendiri maupun provider resmi.</p>
+      <div className="grid">
+        {series.map((title) => (
+          <MovieCard key={title.id} title={title} />
+        ))}
+      </div>
+    </div>
+  );
+}

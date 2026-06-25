@@ -1,0 +1,334 @@
+{
+  "source": "https://z2.idlixku.com/",
+  "fetchedAt": "2026-06-17T15:49:14.474Z",
+  "status": "ok",
+  "sections": [
+    "IDLIX — Nonton Film, Serial TV, Anime, Drama Korea Subtitle Bahasa",
+    "Trending Now",
+    "Trending in Your Country",
+    "Network Originals",
+    "Collections",
+    "Recently Added Movies",
+    "Recently Added Series",
+    "Recently Added Episodes"
+  ],
+  "featureIdeas": [
+    "Rail kategori ala IDLIX untuk anime, drama Korea, network originals, dan episode terbaru.",
+    "Filter cepat berdasarkan negara, tahun, genre, dan network.",
+    "Collection rail untuk rating tinggi dan franchise/tema populer."
+  ],
+  "titles": [
+    {
+      "href": "/",
+      "title": "Beranda"
+    },
+    {
+      "href": "/movie",
+      "title": "Film"
+    },
+    {
+      "href": "/series",
+      "title": "Serial TV"
+    },
+    {
+      "href": "/leaderboard",
+      "title": "Papan Peringkat"
+    },
+    {
+      "href": "/country",
+      "title": "Negara"
+    },
+    {
+      "href": "/year",
+      "title": "Tahun"
+    },
+    {
+      "href": "/network",
+      "title": "Network"
+    },
+    {
+      "href": "/series/teach-you-a-lesson-2026",
+      "title": "Teach You a Lesson"
+    },
+    {
+      "href": "/series/the-legend-of-kitchen-soldier-2026",
+      "title": "The Legend of Kitchen Soldier"
+    },
+    {
+      "href": "/series/reborn-rookie-2026",
+      "title": "Reborn Rookie"
+    },
+    {
+      "href": "/series/off-campus-2026",
+      "title": "Off Campus"
+    },
+    {
+      "href": "/series/my-royal-nemesis-2026",
+      "title": "My Royal Nemesis"
+    },
+    {
+      "href": "/movie/salmokji-whispering-water-2026",
+      "title": "Salmokji: Whispering Water"
+    },
+    {
+      "href": "/series/doctor-on-the-edge-2026",
+      "title": "Doctor on the Edge"
+    },
+    {
+      "href": "/series/every-year-after-2026",
+      "title": "Every Year After"
+    },
+    {
+      "href": "/series/perfect-crown-2026",
+      "title": "Perfect Crown"
+    },
+    {
+      "href": "/series/taxi-driver-2021",
+      "title": "Taxi Driver"
+    },
+    {
+      "href": "/series/teach-you-a-lesson-2026",
+      "title": "Teach You a Lesson"
+    },
+    {
+      "href": "/series/the-legend-of-kitchen-soldier-2026",
+      "title": "The Legend of Kitchen Soldier"
+    },
+    {
+      "href": "/series/reborn-rookie-2026",
+      "title": "Reborn Rookie"
+    },
+    {
+      "href": "/series/off-campus-2026",
+      "title": "Off Campus"
+    },
+    {
+      "href": "/series/my-royal-nemesis-2026",
+      "title": "My Royal Nemesis"
+    },
+    {
+      "href": "/movie/salmokji-whispering-water-2026",
+      "title": "Salmokji: Whispering Water"
+    },
+    {
+      "href": "/series/doctor-on-the-edge-2026",
+      "title": "Doctor on the Edge"
+    },
+    {
+      "href": "/series/every-year-after-2026",
+      "title": "Every Year After"
+    },
+    {
+      "href": "/series/perfect-crown-2026",
+      "title": "Perfect Crown"
+    },
+    {
+      "href": "/series/taxi-driver-2021",
+      "title": "Taxi Driver"
+    },
+    {
+      "href": "/series/the-beauty-2026",
+      "title": "The Beauty"
+    },
+    {
+      "href": "/movie/pirates-of-the-caribbean-on-stranger-tides-2011",
+      "title": "Pirates of the Caribbean: On Stranger Tides"
+    },
+    {
+      "href": "/movie/encanto-2021",
+      "title": "Encanto"
+    },
+    {
+      "href": "/movie/cinderella-2015",
+      "title": "Cinderella"
+    },
+    {
+      "href": "/movie/the-princess-diaries-2-royal-engagement-2004",
+      "title": "The Princess Diaries 2: Royal Engagement"
+    },
+    {
+      "href": "/movie/tangled-2010",
+      "title": "Tangled"
+    },
+    {
+      "href": "/movie/the-princess-diaries-2001",
+      "title": "The Princess Diaries"
+    },
+    {
+      "href": "/series/moving-2023",
+      "title": "Moving"
+    },
+    {
+      "href": "/movie/zootopia-2-2025",
+      "title": "Zootopia 2"
+    },
+    {
+      "href": "/movie/the-chronicles-of-narnia-the-lion-the-witch-and-the-wardrobe-2005",
+      "title": "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe"
+    },
+    {
+      "href": "/movie/my-neighbor-totoro-1988",
+      "title": "My Neighbor Totoro"
+    },
+    {
+      "href": "/series/boruto-naruto-next-generations-2017",
+      "title": "Boruto: Naruto Next Generations"
+    },
+    {
+      "href": "/series/jujutsu-kaisen-2020",
+      "title": "JUJUTSU KAISEN"
+    },
+    {
+      "href": "/movie/stand-by-me-doraemon-2-2020",
+      "title": "Stand by Me Doraemon 2"
+    },
+    {
+      "href": "/movie/jujutsu-kaisen-hidden-inventory-premature-death-the-movie-2025",
+      "title": "JUJUTSU KAISEN: Hidden Inventory / Premature Death - The Movie"
+    },
+    {
+      "href": "/series/one-piece-1999",
+      "title": "One Piece"
+    },
+    {
+      "href": "/series/dr-stone-2019",
+      "title": "Dr. STONE"
+    },
+    {
+      "href": "/series/frieren-beyond-journeys-end-2023",
+      "title": "Frieren: Beyond Journey&#x27;s End"
+    },
+    {
+      "href": "/series/haikyu-2014",
+      "title": "Haikyu!!"
+    },
+    {
+      "href": "/series/demon-slayer-kimetsu-no-yaiba-2019",
+      "title": "Demon Slayer: Kimetsu no Yaiba"
+    },
+    {
+      "href": "/movie/deep-water-2026",
+      "title": "Deep Water"
+    },
+    {
+      "href": "/movie/pressure-2026",
+      "title": "Pressure"
+    },
+    {
+      "href": "/movie/busboys-2026",
+      "title": "Busboys"
+    },
+    {
+      "href": "/movie/bone-tomahawk-2015",
+      "title": "Bone Tomahawk"
+    },
+    {
+      "href": "/movie/blades-of-the-guardians-2026",
+      "title": "Blades of the Guardians"
+    },
+    {
+      "href": "/movie/saccharine-2026",
+      "title": "Saccharine"
+    },
+    {
+      "href": "/movie/time-of-death-2025",
+      "title": "Time of Death"
+    },
+    {
+      "href": "/movie/broken-land-2024",
+      "title": "Broken Land"
+    },
+    {
+      "href": "/movie/badland-rising-2026",
+      "title": "Badland Rising"
+    },
+    {
+      "href": "/movie/i-am-frankelda-2025",
+      "title": "I Am Frankelda"
+    },
+    {
+      "href": "/series/dazzling-2026",
+      "title": "Dazzling"
+    },
+    {
+      "href": "/series/qingqiu-apothecary-2026",
+      "title": "Qingqiu Apothecary"
+    },
+    {
+      "href": "/series/im-the-most-beautiful-count-2025",
+      "title": "I&#x27;m the Most Beautiful Count"
+    },
+    {
+      "href": "/series/this-love-doesnt-have-long-beans-2024",
+      "title": "This Love Doesn&#x27;t Have Long Beans"
+    },
+    {
+      "href": "/series/tell-me-what-you-saw-2020",
+      "title": "Tell Me What You Saw"
+    },
+    {
+      "href": "/series/being-a-hero-2022",
+      "title": "Being a Hero"
+    },
+    {
+      "href": "/series/every-year-after-2026",
+      "title": "Every Year After"
+    },
+    {
+      "href": "/series/the-flowers-of-evil-2026",
+      "title": "The Flowers of Evil"
+    },
+    {
+      "href": "/series/salvation-swallowed-by-the-nest-2026",
+      "title": "Salvation, Swallowed by the Nest"
+    },
+    {
+      "href": "/series/the-boondocks-2005",
+      "title": "The Boondocks"
+    },
+    {
+      "href": "/series/teach-you-a-lesson-2026",
+      "title": "Teach You a Lesson"
+    },
+    {
+      "href": "/series/the-legend-of-kitchen-soldier-2026",
+      "title": "The Legend of Kitchen Soldier"
+    },
+    {
+      "href": "/series/my-royal-nemesis-2026",
+      "title": "My Royal Nemesis"
+    },
+    {
+      "href": "/series/off-campus-2026",
+      "title": "Off Campus"
+    },
+    {
+      "href": "/series/reborn-rookie-2026",
+      "title": "Reborn Rookie"
+    },
+    {
+      "href": "/movie",
+      "title": "Browse Movies"
+    },
+    {
+      "href": "/series",
+      "title": "Browse TV Series"
+    },
+    {
+      "href": "/genre",
+      "title": "Browse by Genre"
+    },
+    {
+      "href": "/country",
+      "title": "Browse by Country"
+    },
+    {
+      "href": "/year",
+      "title": "Browse by Year"
+    },
+    {
+      "href": "/network",
+      "title": "Browse by Network"
+    }
+  ]
+}
