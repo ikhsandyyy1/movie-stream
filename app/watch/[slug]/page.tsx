@@ -10,7 +10,6 @@ import { recordAuditEvent } from "@/lib/studio";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const { getCatalogTitleBySlug } = await import("@/lib/catalog");
   const title = await getCatalogTitleBySlug(slug);
 
   if (!title) {
