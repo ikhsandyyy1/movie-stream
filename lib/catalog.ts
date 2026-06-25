@@ -1,3 +1,4 @@
+import { cache } from "react";
 import {
   titles as fallbackTitles,
   type ContentType,
@@ -77,7 +78,7 @@ type SupabaseSeason = {
   episodes?: SupabaseEpisode[] | null;
 };
 
-export async function getCatalogTitles() {
+export const getCatalogTitles = cache(async () => {
   const fromSupabase = await fetchSupabaseTitles();
   if (fromSupabase.length === 0) return fallbackTitles;
 
@@ -85,7 +86,7 @@ export async function getCatalogTitles() {
   const supabaseSlugs = new Set(enrichedSupabaseTitles.map((title) => title.slug));
   const localOnlyTitles = fallbackTitles.filter((title) => !supabaseSlugs.has(title.slug));
   return [...enrichedSupabaseTitles, ...localOnlyTitles];
-}
+});
 
 export async function getCatalogTitleBySlug(slug: string) {
   const titles = await getCatalogTitles();
