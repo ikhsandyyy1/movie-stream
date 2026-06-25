@@ -12,7 +12,9 @@ const nextConfig: NextConfig = {
         hostname: "qcbtbbajmvailfolkqoq.supabase.co"
       }
     ]
-  }
+  },
+  // For Three.js (Ethereal component)
+  transpilePackages: ["three"]
 };
 
 export default nextConfig;
