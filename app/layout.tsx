@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { SiteShell } from "@/components/site-shell";
+import { PageTransition } from "@/components/ui/page-transition";
 
 export const metadata: Metadata = {
   title: "IMOV",
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body>
-        <SiteShell>{children}</SiteShell>
+        <SiteShell>
+          <PageTransition>{children}</PageTransition>
+        </SiteShell>
         <Analytics />
         <SpeedInsights />
       </body>

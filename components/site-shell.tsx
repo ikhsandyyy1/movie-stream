@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Clapperboard,
   Film,
@@ -14,7 +17,9 @@ const navItems = [
   { href: "/ranking", label: "Papan Peringkat" }
 ];
 
-export async function SiteShell({ children }: { children: React.ReactNode }) {
+export function SiteShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -28,7 +33,11 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
 
           <nav className="desktop-nav" aria-label="Navigasi utama">
             {navItems.map((item) => (
-              <Link className="nav-link" href={item.href} key={item.href}>
+              <Link
+                className={`nav-link${pathname === item.href ? " active" : ""}`}
+                href={item.href}
+                key={item.href}
+              >
                 {item.label}
               </Link>
             ))}
@@ -45,19 +54,31 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       <main id="content">{children}</main>
 
       <nav className="bottom-nav" aria-label="Navigasi mobile">
-        <Link href="/">
+        <Link
+          href="/"
+          className={pathname === "/" ? "active" : ""}
+        >
           <Home aria-hidden="true" />
           Home
         </Link>
-        <Link href="/search">
+        <Link
+          href="/search"
+          className={pathname === "/search" ? "active" : ""}
+        >
           <Search aria-hidden="true" />
           Search
         </Link>
-        <Link href="/movies">
+        <Link
+          href="/movies"
+          className={pathname === "/movies" ? "active" : ""}
+        >
           <Film aria-hidden="true" />
           Movies
         </Link>
-        <Link href="/series">
+        <Link
+          href="/series"
+          className={pathname === "/series" ? "active" : ""}
+        >
           <Tv aria-hidden="true" />
           Series
         </Link>
