@@ -2,13 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   Clapperboard,
   Film,
+  Heart,
   Home,
+  LogIn,
   Search,
-  Tv
+  Tv,
+  User
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 const navItems = [
   { href: "/", label: "Beranda" },
@@ -20,6 +25,22 @@ const navItems = [
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [session, setSession] = useState<{ user: { id: string } } | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session: s } }) => {
+      setSession(s);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const isLoggedIn = !!session;
 
   return (
     <div className="app-shell">
@@ -48,6 +69,16 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <Link className="icon-button" href="/search" aria-label="Cari film dan serial">
               <Search size={20} />
             </Link>
+            {isLoggedIn ? (
+              <Link className="icon-button" href="/profile" aria-label="Profil">
+                <User size={20} />
+              </Link>
+            ) : (
+              <Link className="button" href="/login" style={{ fontSize: 13, padding: "0 12px", minHeight: 36 }}>
+                <LogIn size={16} />
+                Masuk
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -76,20 +107,23 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           <Film aria-hidden="true" />
           Browse
         </Link>
-        <Link
-          href="/movies"
-          className={pathname === "/movies" ? "active" : ""}
-        >
-          <Film aria-hidden="true" />
-          Movies
-        </Link>
-        <Link
-          href="/series"
-          className={pathname === "/series" ? "active" : ""}
-        >
-          <Tv aria-hidden="true" />
-          Series
-        </Link>
+        {isLoggedIn ? (
+          <Link
+            href="/profile"
+            className={pathname.startsWith("/profile") ? "active" : ""}
+          >
+            <User aria-hidden="true" />
+            Profile
+          </Link>
+        ) : (
+          <Link
+            href="/login"
+            className={pathname === "/login" ? "active" : ""}
+          >
+            <LogIn aria-hidden="true" />
+            Masuk
+          </Link>
+        )}
       </nav>
     </div>
   );

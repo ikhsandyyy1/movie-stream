@@ -47,3 +47,9 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect("/studio/login");
 }
+
+export async function signOutUser() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/");
+}

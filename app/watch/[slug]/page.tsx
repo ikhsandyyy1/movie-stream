@@ -7,6 +7,8 @@ import { PosterImage } from "@/components/poster-image";
 import { ContainerStagger, ContainerAnimated } from "@/components/ui/container-scroll";
 import { getCatalogTitleBySlug, getFirstEpisode, getRelatedTitles } from "@/lib/catalog";
 import { recordAuditEvent } from "@/lib/studio";
+import { createClient } from "@/lib/supabase/server";
+import { toggleFavorite } from "@/app/actions/favorites";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -62,6 +64,20 @@ export default async function WatchDetailPage({
       ? `/watch/${title.slug}/season/${firstEpisode.seasonNumber}/episode/${firstEpisode.episodeNumber}`
       : `/watch/${title.slug}/play`;
 
+  // Check if this title is favorited by the current user
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  let isFavorited = false;
+  if (user) {
+    const { data: fav } = await supabase
+      .from("favorites")
+      .select("title_id")
+      .eq("user_id", user.id)
+      .eq("title_id", title.id)
+      .maybeSingle();
+    isFavorited = !!fav;
+  }
+
   return (
     <>
       <section className="hero" style={{ "--hero-image": title.backdrop } as React.CSSProperties}>
@@ -82,10 +98,14 @@ export default async function WatchDetailPage({
               <Play size={19} />
               {title.type === "series" && firstEpisode ? `Putar S${firstEpisode.seasonNumber} E${firstEpisode.episodeNumber}` : "Putar"}
             </Link>
-            <button className="button secondary" type="button">
-              <Heart size={19} />
-              Favorit
-            </button>
+            <form action={toggleFavorite}>
+              <input type="hidden" name="title_id" value={title.id} />
+              <input type="hidden" name="slug" value={title.slug} />
+              <button className={`button secondary${isFavorited ? " favorited" : ""}`} type="submit" style={isFavorited ? { color: "var(--primary)", borderColor: "var(--primary)" } : undefined}>
+                <Heart size={19} fill={isFavorited ? "var(--primary)" : "none"} />
+                {isFavorited ? "Favorit" : "Favorit"}
+              </button>
+            </form>
           </div>
         </div>
       </section>
